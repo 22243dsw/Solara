@@ -36,7 +36,7 @@ chmod 755 /data
 echo ""
 echo "  🌟 Solara  (Cloudflare Pages + Wrangler local dev)"
 echo "  ────────────────────────────────────────────────────"
-echo "  Port      : 8787"
+echo "  Port      : ${PORT:-8787}"
 echo "  Data dir  : /data"
 echo "  Password  : ${PASSWORD:+configured}${PASSWORD:-not set (open access)}"
 echo "  API URL   : ${API_BASE_URL:-https://music-api.gdstudio.xyz/api.php (default)}"
@@ -54,9 +54,9 @@ wrangler pages dev . \
 
 sleep 2
 
-# ── 启动 Node.js 独立服务器监听 8787 端口 ──────────────────────────────────────
-echo "Starting Node.js standalone server on port 8787..."
-export PORT=8787
+# ── 启动 Node.js 独立服务器，优先使用平台注入的 PORT ───────────────────────────
+echo "Starting Node.js standalone server on port ${PORT:-8787}..."
+export PORT="${PORT:-8787}"
 export HOST=0.0.0.0
 export DATA_DIR=/data
 export WRANGLER_API_URL=http://127.0.0.1:8788
